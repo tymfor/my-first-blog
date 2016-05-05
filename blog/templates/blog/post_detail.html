@@ -1,13 +1,33 @@
 {% extends 'blog/base.html'%}
-{% block content %}
-
-<div class="post">
-  {%if post.published_date%}
-    <div class="date">
-        <p>{{ post.published_date}} </p>
+{% load staticfiles %}
+{% block header %}
+<header class="intro-header" style="background-image: url('{% static 'img/post-bg.jpg' %}')">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <h1>{{post.title}}</h1>
+                    <span class="meta">Posted by <a href="#">{{post.author}}</a> on {{post.published_date}}</span>
+                </div>
+            </div>
+        </div>
     </div>
-    {% endif %}
-    <h1>{{ post.title}}</h1>
-    <p>{{post.text}}</p>
-</div>
+</header>
+{% endblock header %}
+
+<!-- Post Content -->
+{% block content %}
+<article>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+              <p>
+                {{post.text|linebreaks}}
+              </p>
+            </div>
+        </div>
+    </div>
+</article>
+
+<hr>
 {% endblock content %}
