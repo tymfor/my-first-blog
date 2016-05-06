@@ -1,11 +1,12 @@
-{% extends 'blog/base.html'%} {% load staticfiles %} {% block header %}
+{% extends 'blog/base.html'%}
+{% load staticfiles %}
+{% block header %}
 <header class="intro-header" style="background-image: url('{% static 'img/steinsprang_Laerdal.jpg' %}')">
     <div class="container">
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                 <div class="post-heading">
-                    <h1>{{post.title}}</h1>
-                    <span class="meta">Posted by <a href="#">{{post.author}}</a> on {{post.published_date}}</span>
+                    <h1>Report new slide</h1>
                 </div>
             </div>
         </div>
@@ -19,15 +20,14 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                <p>
-                    {{post.text|linebreaks}}
-                </p>
+              <form method="POST" class="post-form">{% csrf_token %}
+                  {{ form.as_p }}
+                  <button type="submit" class="save btn btn-default">Save</button>
+              </form>
             </div>
         </div>
-            <a href="{% url 'post_edit' pk=post.pk %}">
-                <button type="submit" class="btn btn-default">Edit
-                </button>
-            </a>
-        </div>
+    </div>
 </article>
-<hr> {% endblock content %}
+
+<hr>
+{% endblock content %}
