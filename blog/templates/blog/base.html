@@ -60,9 +60,15 @@
                     <li>
                         <a href="{%url 'post_new'%}">Report slide</a>
                     </li>
+                    {% if user.is_authenticated %}
                     <li>
-                        <a href="contact.html">Login</a>
+                        <a href="{%url 'django.contrib.auth.views.logout'%}">Logout</a>
                     </li>
+                    {% else %}
+                    <li>
+                        <a href="{%url 'django.contrib.auth.views.login'%}">Login/Registration</a>
+                    </li>
+                    {% endif %}
                 </ul>
             </div>
             <!-- /.navbar-collapse -->
