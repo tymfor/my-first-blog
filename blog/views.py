@@ -17,6 +17,9 @@ def post_detail(request,pk):
 def post_about(request):
     return render(request, 'blog/about.html')
 
+def AHP_survey(request):
+    return render(request, 'blog/ahp_survey.html')
+
 # @login_required
 def post_new(request):
     if request.method == 'POST':
