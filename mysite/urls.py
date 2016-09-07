@@ -22,8 +22,8 @@ admin.autodiscover()
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^account/login/$', auth_views.login),
-    url(r'^account/logout/$', auth_views.logout, {'next_page': '/'}),
+    url(r'^account/login/$', auth_views.login, name = 'login'),
+    url(r'^account/logout/$', auth_views.logout, name = 'logout'),
     url(r'', include('blog.urls')),
     # url(r'', include('qna.urls')),
 ]
