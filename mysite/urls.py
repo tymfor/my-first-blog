@@ -16,6 +16,8 @@ Including another URLconf
 from django.conf.urls import include, url
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
+from django.contrib.auth.views import logout_then_login
+
 
 admin.autodiscover()
 
@@ -23,7 +25,7 @@ admin.autodiscover()
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^account/login/$', auth_views.login, name = 'login'),
-    url(r'^account/logout/$', auth_views.logout, name = 'logout'),
+    url(r'^account/logout/$',lambda request: logout_then_login(request, "/"), name = 'logout'),
     url(r'', include('blog.urls')),
     # url(r'', include('qna.urls')),
 ]
