@@ -75,14 +75,14 @@
                     {% endif %}
                     {% if user.is_authenticated %}
                     <li>
-                        <a href="{%url 'django.contrib.auth.views.logout'%}">Logout</a>
+                        <a href="{%url 'logout'%}">Logout</a>
                     </li>
                     <li>
                         <a href="#">Welcome! {{ user.username }}</a>
                     <li>
                     {% else %}
                     <li>
-                        <a href="{%url 'django.contrib.auth.views.login'%}">Login/Registration</a>
+                        <a href="{%url 'login'%}">Login/Registration</a>
                     </li>
                     {% endif %}
                 </ul>
