@@ -17,28 +17,24 @@
 <p>Your username and password didn't match. Please try again.</p>
 {% endif %}
 
-<form id="signin" class="form-horizontal" method="post" action="{% url 'django.contrib.auth.views.login' %}">
+<form id="signin" class="form-sigin" method="post" action="{% url 'django.contrib.auth.views.login' %}">
   {% csrf_token %}
   <!-- Username input-->
-  <div class="row control-group">
-    <div class="col-sm-offset-1">
+  <div class="form-group">
       {{ form.username.label_tag }}             {{ form.username }}             </div>
     </div>
 
     <!-- Password input-->
-    <div class="row control-group">
-      <div class="col-sm-offset-1">
+  <div class="form-group">
         {{ form.password.label_tag }}             {{ form.password }}             <span class="field-error">
           {{ form.non_field_errors|striptags }}             </span>
-        </div>
       </div>
 
       <br>
 
       <!-- Sign in Button -->
       <div class="row">
-        <div class="col-sm-offset-1">
-          <input type="hidden" name="next" value="{{next }}">             <button id="signin" name="signin" class="btn btn-block btn-default" type="submit">Log In</button>
+          <input type="hidden" name="next" value="{{next }}">             <button id="signin" name="signin" class="btn btn-lg btn-primary btn-block" type="submit">Log In</button>
           <hr>
           <center>
             Or <a href="{% url 'sign_up' %}"><u>sign up</u></a>

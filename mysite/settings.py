@@ -38,6 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'blog',
+    'geoposition',
+    'django_tables2',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -122,3 +124,14 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR,'static')
+
+# Geopositiion settings
+GEOPOSITION_GOOGLE_MAPS_API_KEY = 'AIzaSyAcToGuupfmYzehw5XWItIOb61zHRyIm3U'
+GEOPOSITION_MAP_OPTIONS = {
+    'minZoom': 3,
+    'maxZoom': 15,
+}
+
+GEOPOSITION_MARKER_OPTIONS = {
+    'cursor': 'move'
+}
