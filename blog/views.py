@@ -8,6 +8,7 @@ import numpy as np
 import ast
 import pickle
 from os.path import *;
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 from . models import Post, StructuralMeasures
 from . forms import Postform, Viewform, Measuresform
@@ -116,3 +117,19 @@ def mitigation_measures(request,pk):
     table = MeasureTable(data_selected)
     RequestConfig(request).configure(table)
     return render(request, 'blog/suggested_measures.html',{'table':table,'post': post})
+
+def measures_list(request):
+    measures = StructuralMeasures.objects.all().order_by('category_id','sub_id')
+    page = request.GET.get('page', 1)
+    paginator = Paginator(measures, 10)
+    try:
+        measures = paginator.page(page)
+    except PageNotAnInteger:
+        measures = paginator.page(1)
+    except EmptyPage:
+        measures = paginator.page(paginator.num_pages)
+    return render(request, 'blog/mitigation_measures.html', {'measures':measures})
+
+def measure_detail(request,pk):
+    measure = get_object_or_404(StructuralMeasures, pk=pk)
+    return render(request, 'blog/measure_detail.html', {'measure': measure})

@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'blog',
     'geoposition',
     'django_tables2',
+    'bootstrap_pagination',
 ]
 
 MIDDLEWARE_CLASSES = [

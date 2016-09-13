@@ -30,21 +30,19 @@ class Post(models.Model):
     def __str__(self):
         return self.title
 
-class SelectedMeasures(models.Model):
-        name = models.CharField(max_length=200)
-        category_id = models.IntegerField(default=0)
-        sub_id = models.IntegerField(default=0)
-        selected_tech_criteria = models.CommaSeparatedIntegerField(max_length=200)
-        performance_and_reliability_criteria = models.CommaSeparatedIntegerField(max_length=200)
-        sum_tech_criteria = models.IntegerField(default=0)
-        def __str__(self):
-            return self.name
 
 class StructuralMeasures(models.Model):
         name = models.CharField(max_length=200)
+        title = models.CharField(max_length=200,default = '')
         category_id = models.IntegerField(default=0)
+        category_description = models.CharField(max_length=200,default = '')
         sub_id = models.IntegerField(default=0)
         tech_criteria_AtoF = models.CommaSeparatedIntegerField(max_length=200)
         performance_and_reliability_criteria = models.CommaSeparatedIntegerField(max_length=200)
+        description_text = models.TextField(default = 'will be updated')
+        design_text = models.TextField(default = 'will be updated')
+        reference = models.TextField(default = 'will be updated')
+        figure_captions = models.CommaSeparatedIntegerField(max_length=200, default = [])
+        img_src = models.CommaSeparatedIntegerField(max_length=200, default = [])
         def __str__(self):
             return self.name
