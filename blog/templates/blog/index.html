@@ -4,9 +4,9 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                <div class="post-heading">
+                <div class="intro-message">
                     <h1>Safeland toolbox</h1>
-                    <hr class="small">
+                    <hr class="intro-divider">
                     <span class="subheading">Expert-Based Landslide Mitigation Portal</span>
                 </div>
             </div>
@@ -19,10 +19,10 @@
             {% for post in posts %}
             <div class="post-preview">
                 <a href="post.html">
-                    <h2 class="post-title">
+                    <h2>
             <a href="{% url 'post_detail' pk=post.pk %}">{{ post.title}}</a>
           </h2>
-                    <h3 class="post-subtitle">
+                    <h3 >
               {{post.text}}
           </h3>
                 </a>

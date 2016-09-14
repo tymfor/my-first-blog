@@ -112,7 +112,7 @@ def mitigation_measures(request,pk):
     post.save()
     data_selected = []
     for measure,sum_tech in zip(availabe_measures,sum_tech_criteria):
-        data_selected.append({'name': measure.name, 'category_id': measure.category_id, 'sub_id': measure.sub_id,'sum': sum_tech})
+        data_selected.append({'name': measure.title, 'id': measure.id,'category_id': measure.category_id, 'sub_id': measure.sub_id,'sum': sum_tech})
 
     table = MeasureTable(data_selected)
     RequestConfig(request).configure(table)

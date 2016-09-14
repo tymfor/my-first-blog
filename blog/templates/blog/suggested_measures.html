@@ -1,10 +1,11 @@
 {% extends 'blog/base.html'%} {% load staticfiles %} {% load render_table from django_tables2 %} {% block header %}
-<header class="page-headerr" style="background-image: url('{% static 'img/steinsprang_Laerdal.jpg' %}')">
+<header class="intro-header" style="background-image: url('{% static 'img/steinsprang_Laerdal.jpg' %}')">
     <div class="container">
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                <div class="post-heading">
-                    <h1>Structural mitigation measure(s) for {{post.title}}</h1>
+                <div class="section-heading">
+                    <h1>Structural mitigation measure(s) </h1>
+                    <h2>suggested for {{post.title}}</h2>
                 </div>
             </div>
         </div>

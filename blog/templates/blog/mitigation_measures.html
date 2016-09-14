@@ -4,10 +4,10 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                <div class="site-heading">
+                <div class="intro-message">
                     <h1>MITIGATION MEASUREs</h1>
-                    <hr class="small">
-                    <span class="subheading">The toolbox includes near 70 structural mitigation measures. The structural measures are divided into ten categories and belong to class of measures either reducing hazard or reducing consequences</span>
+                    <hr class="intro-divider">
+                    <p class = "lead">The toolbox includes near 70 structural mitigation measures. The structural measures are divided into ten categories and belong to class of measures either reducing hazard or reducing consequences</p>
                 </div>
             </div>
         </div>
@@ -18,13 +18,13 @@
     <div class="row">
         <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
             {% for measure in measures %}
-            <div class="post-preview">
-                    <h3 class="post-subtitle">
-                      <a href="{% url 'measure_detail' pk=measure.pk %}">{{measure.title}}</a>
-          </h3>
+            <div class="lead">
                     <h4 class="post-subtitle">
-                      Category: {{measure.category_id}}.{{measure.category_description}}
+                      <a href="{% url 'measure_detail' pk=measure.pk %}">{{measure.title}}</a>
           </h4>
+                    <h5 class="post-subtitle">
+                      Category {{measure.category_id}} : {{measure.category_description}}
+          </h5>
                 </a>
             </div>
             <hr> {% endfor %}

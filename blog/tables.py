@@ -2,7 +2,8 @@ import django_tables2 as tables
 from . models import Post, StructuralMeasures
 
 class MeasureTable(tables.Table):
-    name = tables.columns.TemplateColumn(template_code=u"""{{ record.name }}""", orderable=True, verbose_name='Name')
+    # name = tables.columns.TemplateColumn(template_code=u"""{{ record.title }}""", orderable=True, verbose_name='Name')
+    name = tables.columns.TemplateColumn(template_code="""<a href="{% url \'measure_detail\' record.id %}">{{ record.name }}</a>""", orderable=True, verbose_name='Name')
     category_id = tables.columns.TemplateColumn(template_code=u"""{{ record.category_id }}""", orderable=True, verbose_name='Main Category')
     sub_id = tables.columns.TemplateColumn(template_code=u"""{{ record.sub_id }}""", orderable=True, verbose_name='Sub Category')
     sum = tables.columns.TemplateColumn(template_code=u"""{{ record.sum }}""", orderable=True, verbose_name='Sum of tech criteria')

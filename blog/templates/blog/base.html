@@ -20,11 +20,13 @@
     <!-- Optional theme -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
     <!-- Custom CSS -->
-    <link href="{% static 'css/clean-blog.min.css' %}" rel="stylesheet">
+    <!-- <link href="{% static 'css/clean-blog.min.css' %}" rel="stylesheet"> -->
+    <link href="{% static 'css/landing_theme/landing-page.css' %}" rel="stylesheet">
     <!-- <link rel="stylesheet" href="{{ STATIC_URL }}django_tables2/themes/paleblue/css/screen.css" /> -->
     <link href="{{ STATIC_URL }}django_tables2/bootstrap.css" rel="stylesheet" />
     <!-- Custom Fonts -->
    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+   <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
     <!-- <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'> -->
     <!-- <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'> -->
     <!-- <link href='https://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'> -->
@@ -46,7 +48,7 @@
 <body>
 
     <!-- Navigation -->
-    <nav class="navbar navbar-inverse navbar-custom navbar-fixed-top">
+    <nav class="navbar navbar-inverse navbar-fixed-top">
         <div class="container-fluid">
             <!-- Brand and toggle get grouped for better mobile display -->
             <div class="navbar-header page-scroll">
@@ -71,11 +73,9 @@
                     <li>
                         <a href="{%url 'post_new'%}">Report slide</a>
                     </li>
-                    {% if user.is_authenticated %}
                     <li>
                         <a href="{%url 'measures_list'%}">Mitigation measures</a>
                     </li>
-                    {% endif %}
                     {% if user.is_authenticated %}
                     <li>
                         <a href="{%url 'logout'%}">Logout</a>
