@@ -82,7 +82,10 @@
                     </li>
                     <li>
                         <a href="#">Welcome! {{ user.username }}</a>
+                    </li>
                     <li>
+                        <a href="{% url 'admin:index' %}">Admin</a>
+                    </li>
                     {% else %}
                     <li>
                         <a href="{%url 'login'%}">Login/Registration</a>

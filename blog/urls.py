@@ -13,4 +13,5 @@ urlpatterns = [
     url(r'^about/$', views.post_about, name='post_about'),
     url(r'^account/signup/$', views.sign_up, name = 'sign_up'),
     url(r'^account/signup_ok/$', views.signup_ok, name='signup_ok'),
+
 ]
