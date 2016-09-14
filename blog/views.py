@@ -25,7 +25,7 @@ def post_list(request):
 def post_detail(request,pk):
     post = get_object_or_404(Post, pk=pk)
     form = Viewform(instance=post)
-    return render(request, 'blog/post_detail2.html',{'form':form,'post': post})
+    return render(request, 'blog/post_detail3.html',{'form':form,'post': post})
     # return render(request, 'blog/post_detail.html', {'post': post})
 
 def post_about(request):

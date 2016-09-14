@@ -1,0 +1,89 @@
+{% extends 'blog/base.html'%} {% load staticfiles %} {% block header %}
+<header class="intro-header" style="background-image: url('{% static 'img/steinsprang_Laerdal.jpg' %}')">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="section-heading">
+                    <h1>{{post.title}}</h1>
+                    <span class="meta">Posted by <a href="#">{{post.author}}</a> on {{post.published_date}}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+{% endblock header %}
+
+<!-- Post Content -->
+{% block content %}
+<article>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+              <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+              <link href="/static/geoposition/geoposition.css" type="text/css" media="all" rel="stylesheet" />
+              <script type="text/javascript" src="//maps.google.com/maps/api/js?key=AIzaSyAcToGuupfmYzehw5XWItIOb61zHRyIm3U"></script>
+              <script type="text/javascript" src="/static/geoposition/geoposition.js"></script>
+              <h2>Description</h2>
+              <p class = "lead">{{post.text}}</p>
+              <hr>
+              <h2>Position</h2>
+              <div class="geoposition-widget" data-map-widget-height="480" data-map-options="{&quot;maxZoom&quot;: 15, &quot;minZoom&quot;: 3}" data-marker-options="{&quot;cursor&quot;: &quot;move&quot;}">
+                <table>
+                    <tr>
+                        <td>Latitude</td>
+                        <td><input class="geoposition" id="id_position_0" name="position_0" type="text" value={{post.position.latitude}}/></td>
+                    </tr>
+                    <tr>
+                        <td>Longitude</td>
+                        <td><input class="geoposition" id="id_position_1" name="position_1" type="text" value={{post.position.longitude}} /></td>
+                    </tr>
+                </table>
+            </div>
+            <hr>
+            <h2>Type of Landslide</h2>
+            <table class = "table">
+                <tr class = "lead">
+                  <td>Type of movement:</td>
+                  <td>{{ post.get_TypeOfMovement_display }}</td>
+                </tr>
+                <tr class = "lead">
+                  <td>Material type:</td>
+                  <td>{{ post.get_Material_display }}</td>
+                </tr>
+                <tr class = "lead">
+                  <td>Depth of movement:</td>
+                  <td>{{ post.get_DepthOfMovement_display }}</td>
+                </tr>
+                <tr class = "lead">
+                  <td>Rate of movement:</td>
+                  <td>{{ post.get_RateOfMovementAtTimeOfWorks_display }}</td>
+                </tr>
+                <tr class = "lead">
+                  <td>Groundwater:</td>
+                  <td>{{ post.get_Groundwater_display }}</td>
+                </tr>
+                <tr class = "lead">
+                  <td>Surface water:</td>
+                  <td>{{ post.get_SurfaceWater_display }}</td>
+                </tr>
+            </table>
+              <a href="{% url 'post_edit' pk=post.pk %}">
+                  <button type="submit" class="btn btn-default">Edit
+                  </button>
+              </a>
+              <a href="{% url 'mitigation_measures' pk=post.pk %}">
+                  <button type="submit" class="btn btn-default">Recommended mitigation measures
+                  </button>
+              </a>
+              <a href="{% url 'post_delete' pk=post.pk %}">
+                  <button type="submit" class="btn btn-default">Delete
+                  </button>
+              </a>
+
+            </div>
+        </div>
+    </div>
+</article>
+
+<hr>
+{% endblock content %}
