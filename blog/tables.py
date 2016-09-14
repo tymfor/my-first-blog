@@ -8,7 +8,7 @@ class MeasureTable(tables.Table):
     sub_id = tables.columns.TemplateColumn(template_code=u"""{{ record.sub_id }}""", orderable=True, verbose_name='Sub Category')
     sum = tables.columns.TemplateColumn(template_code=u"""{{ record.sum }}""", orderable=True, verbose_name='Sum of tech criteria')
     class Meta:
-        fields =("name","category_id",'sub_id','sum')
+        fields =("name",'sum',"category_id",'sub_id')
         # add class="paleblue" to <table> tag
         attrs = {'class': 'paleblue'}
         order_by = '-sum'
