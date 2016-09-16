@@ -5,13 +5,15 @@ from django.contrib.auth.forms import UserCreationForm
 from django_tables2 import RequestConfig
 from .tables import MeasureTable
 import numpy as np
-import ast
 import pickle
 from os.path import *;
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from .decision_making import *
 
 from . models import Post, StructuralMeasures
 from . forms import Postform, Viewform, Measuresform
+
+
 #
 # def post_list(request):
 #     posts = PostTable(Post.objects.filter(published_date__lte = timezone.now()).order_by('-published_date'))
@@ -91,29 +93,13 @@ def updating_StructuralMeasures(request):
 def mitigation_measures(request,pk):
     post = get_object_or_404(Post, pk=pk)
     selected_failure_mode = [post.TypeOfMovement,post.Material,post.DepthOfMovement,post.RateOfMovementAtTimeOfWorks,post.Groundwater,post.SurfaceWater]   # size of technical criteria
-    category_id = []
-    sub_id = []
-    sum_tech_criteria = []
     measures = StructuralMeasures.objects.all()
-    availabe_measures = []
-    for measure in measures:
-        selected_tech_criteria = []
-        for count,tech_index in enumerate(selected_failure_mode):
-            list_criteria = ast.literal_eval(measure.tech_criteria_AtoF)
-            selected_tech_criteria.append(list_criteria[count][tech_index-1])
-        if not 0 in selected_tech_criteria:
-            category_id.append(measure.category_id)
-            sub_id.append(measure.sub_id)
-            sum_tech_criteria.append(sum(selected_tech_criteria))
-            availabe_measures.append(measure)
-    post.available_measures_category_id = category_id
-    post.available_measures_sub_id = sub_id
-    post.available_measures_sum_tech_criteria = sum_tech_criteria
+    post = available_measures(selected_failure_mode,measures,post)
     post.save()
     data_selected = []
-    for measure,sum_tech in zip(availabe_measures,sum_tech_criteria):
-        data_selected.append({'name': measure.title, 'id': measure.id,'category_id': measure.category_id, 'sub_id': measure.sub_id,'sum': sum_tech})
-
+    for measure in post.available_measures.all():
+        score = scores(selected_failure_mode,measure)
+        data_selected.append({'name': measure.title, 'id': measure.id,'category_id': measure.category_id,'sum': sum(score)})
     table = MeasureTable(data_selected)
     RequestConfig(request).configure(table)
     return render(request, 'blog/suggested_measures.html',{'table':table,'post': post})

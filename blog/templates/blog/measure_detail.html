@@ -9,6 +9,24 @@
                 </div>
             </div>
         </div>
+        <div class="row">
+            <div class="btn-group" role="toolbar">
+                <a href="#Description">
+                    <button class="btn btn-default">Description</button>
+                </a>
+                <a href="#Design">
+                    <button class="btn btn-default">Design</button>
+                </a>
+                <a href="#Applicability">
+                    <button class="btn btn-default">Applicability</button>
+                </a>
+                <a href="#Re_and_Per_criteria">
+                    <button class="btn btn-default">Constraints</button>
+                </a>
+
+                <!-- <button class="btn btn-default">References</button> -->
+            </div>
+        </div>
     </div>
 </header>
 {% endblock header %}
@@ -19,25 +37,325 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-              <h3>Description</h3>
-              <p class = "lead"> {{measure.description_text|linebreaksbr }}<br /> </p>
-              <h3>Design</h3>
-              <p class = "lead"> {{measure.design_text|linebreaksbr }} <br /></p>
-              <h3>Reference</h3>
-              <p class = "lead"> {{measure.reference|linebreaksbr }}<br /> </p>
-              <ul class="pager">
-                  <li class="previous">
-                            <a href="{{request.META.HTTP_REFERER}}">Previous page  </a>
-                </li>
-            </ul>
+                <hr class="section-divider">
+                <h3 id="Description">Description</h3>
+                <p class="lead"> {{measure.description_text|linebreaksbr }}<br /> </p>
+                <a id="back-to-top" href="#" > back to top</a>
+                <hr class="section-divider">
+                <h3 id="Design">Design</h3>
+                <p class="lead"> {{measure.design_text|linebreaksbr }} <br /></p>
+                <a id="back-to-top" href="#" > back to top</a>
+
+                <hr class="section-divider">
+                <h3 id="Applicability">Applicability</h3>
+
+<div class="lead">
+  <table class = 'table table-bordered table-sm '>
+        <thead>
+          <tr>
+            <td colspan="3">
+              <h4> Type of movement </h>
+            </td>
+          </tr>
+          <tr>
+            <th class="text-center">Descriptor</th>
+            <th class="text-center">Rating</th>
+            <th class="text-center">Note</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Falls</td>
+            <td>{{measure.tech_1_1}}</td>
+            <td rowspan="5">{{measure.note_tech_1|linebreaksbr }}</td>
+          </tr>
+          <tr>
+            <td>Topples</td>
+            <td>{{measure.tech_1_2}}</td>
+          </tr>
+          <tr>
+            <td>Slides</td>
+            <td>{{measure.tech_1_3}}</td>
+          </tr>
+          <tr>
+            <td>Spreads</td>
+            <td>{{measure.tech_1_4}}</td>
+          </tr>
+          <tr>
+            <td>Flows</td>
+            <td>{{measure.tech_1_5}}</td>
+          </tr>
+        </tbody>
+      </table>
+</div>
+<a id="back-to-top" href="#" > back to top</a>
+
+<div class="lead">
+  <table class = 'table table-bordered table-sm'>
+        <thead>
+          <tr>
+            <td colspan="3">
+              <h4>Material</h>
+            </td>
+          </tr>
+          <tr>
+            <th class="text-center">Descriptor</th>
+            <th class="text-center">Rating</th>
+            <th class="text-center">Note</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Falls</td>
+            <td>{{measure.tech_2_1}}</td>
+            <td rowspan="3">{{measure.note_tech_2|linebreaksbr }}</td>
+          </tr>
+          <tr>
+            <td>Topples</td>
+            <td>{{measure.tech_2_2}}</td>
+          </tr>
+          <tr>
+            <td>Slides</td>
+            <td>{{measure.tech_2_3}}</td>
+          </tr>
+        </tbody>
+      </table>
+</div>
+<a id="back-to-top" href="#" > back to top</a>
+
+<div class="lead">
+  <table class = 'table table-bordered table-sm '>
+        <thead>
+          <tr>
+            <td colspan="3">
+              <h4> Depth of movement </h>
+            </td>
+          </tr>
+          <tr>
+            <th class="text-center">Descriptor</th>
+            <th class="text-center">Rating</th>
+            <th class="text-center">Note</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Superficial (< 0.5 m)</td>
+            <td>{{measure.tech_3_1}}</td>
+            <td rowspan="5">{{measure.note_tech_3|linebreaksbr }}</td>
+          </tr>
+          <tr>
+            <td>Shallow (0.5 to 3 m)</td>
+            <td>{{measure.tech_3_2}}</td>
+          </tr>
+          <tr>
+            <td>Medium (3 to 8 m)</td>
+            <td>{{measure.tech_3_3}}</td>
+          </tr>
+          <tr>
+            <td>Deep (8 to 15 m)</td>
+            <td>{{measure.tech_3_4}}</td>
+          </tr>
+          <tr>
+            <td>Very deep (> 15 m)</td>
+            <td>{{measure.tech_3_5}}</td>
+          </tr>
+        </tbody>
+      </table>
+</div>
+<a id="back-to-top" href="#" > back to top</a>
+
+<div class="lead">
+  <table class = 'table table-bordered table-sm '>
+        <thead>
+          <tr>
+            <td colspan="3">
+              <h4> Rate of movement </h>
+            </td>
+          </tr>
+          <tr>
+            <th class="text-center">Descriptor</th>
+            <th class="text-center">Rating</th>
+            <th class="text-center">Note</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Moderate to fast</td>
+            <td>{{measure.tech_4_1}}</td>
+            <td rowspan="4">{{measure.note_tech_4|linebreaksbr }}</td>
+          </tr>
+          <tr>
+            <td>Slow</td>
+            <td>{{measure.tech_4_2}}</td>
+          </tr>
+          <tr>
+            <td>Very slow</td>
+            <td>{{measure.tech_4_3}}</td>
+          </tr>
+          <tr>
+            <td>Extremely slow</td>
+            <td>{{measure.tech_4_4}}</td>
+          </tr>
+
+        </tbody>
+      </table>
+</div>
+<a id="back-to-top" href="#" > back to top</a>
+
+<div class="lead">
+  <table class = 'table table-bordered table-sm '>
+        <thead>
+          <tr>
+            <td colspan="3">
+              <h4> Groundwater </h>
+            </td>
+          </tr>
+          <tr>
+            <th class="text-center">Descriptor</th>
+            <th class="text-center">Rating</th>
+            <th class="text-center">Note</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Artesian</td>
+            <td>{{measure.tech_5_1}}</td>
+            <td rowspan="4">{{measure.note_tech_5|linebreaksbr }}</td>
+          </tr>
+          <tr>
+            <td>High</td>
+            <td>{{measure.tech_5_2}}</td>
+          </tr>
+          <tr>
+            <td>Low</td>
+            <td>{{measure.tech_5_3}}</td>
+          </tr>
+          <tr>
+            <td>Absent</td>
+            <td>{{measure.tech_5_4}}</td>
+          </tr>
+
+        </tbody>
+      </table>
+</div>
+<a id="back-to-top" href="#" > back to top</a>
+
+<div class="lead">
+  <table class = 'table table-bordered table-sm '>
+        <thead>
+          <tr>
+            <td colspan="3">
+              <h4> SurfaceWater </h>
+            </td>
+          </tr>
+          <tr>
+            <th class="text-center">Descriptor</th>
+            <th class="text-center">Rating</th>
+            <th class="text-center">Note</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Rain</td>
+            <td>{{measure.tech_6_1}}</td>
+            <td rowspan="6">{{measure.note_tech_6|linebreaksbr }}</td>
+          </tr>
+          <tr>
+            <td>Snowmelt</td>
+            <td>{{measure.tech_6_2}}</td>
+          </tr>
+          <tr>
+            <td>Localized</td>
+            <td>{{measure.tech_6_3}}</td>
+          </tr>
+          <tr>
+            <td>Stream</td>
+            <td>{{measure.tech_6_4}}</td>
+          </tr>
+          <tr>
+            <td>Torrent</td>
+            <td>{{measure.tech_6_5}}</td>
+          </tr>
+          <tr>
+            <td>River</td>
+            <td>{{measure.tech_6_6}}</td>
+          </tr>
+        </tbody>
+      </table>
+</div>
+<a id="back-to-top" href="#" > back to top</a>
+
+
+<hr class="section-divider">
+<h3 id="Re_and_Per_criteria">Relaibility and performance criteria</h3>
+<div class="lead">
+  <table class = 'table table-bordered table-sm '>
+        <thead>
+          <tr>
+            <th class="text-center">Criteria</th>
+            <th class="text-center">Rating</th>
+            <th class="text-center">Note</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Maturity of technology</td>
+            <td>{{measure.tech_7}}</td>
+            <td >{{measure.note_tech_7|linebreaksbr }}</td>
+          </tr>
+          <tr>
+            <td>Reliability of performance</td>
+            <td>{{measure.tech_8}}</td>
+            <td >{{measure.note_tech_8|linebreaksbr }}</td>
+          </tr>
+          <tr>
+            <td>Reliability Uncertainty in design</td>
+            <td>{{measure.tech_9}}</td>
+            <td >{{measure.note_tech_9|linebreaksbr }}</td>
+          </tr>
+          <tr>
+            <td>Reliability Uncertainty in implementation</td>
+            <td>{{measure.tech_10}}</td>
+            <td >{{measure.note_tech_10|linebreaksbr }}</td>
+          </tr>
+          <tr>
+            <td>Safety during construction</td>
+            <td>{{measure.tech_11}}</td>
+            <td >{{measure.note_tech_11|linebreaksbr }}</td>
+          </tr>
+          <tr>
+            <td>Service life required (durability)</td>
+            <td>{{measure.tech_12}}</td>
+            <td >{{measure.note_tech_12|linebreaksbr }}</td>
+          </tr>
+          <tr>
+            <td>Aesthetics</td>
+            <td>{{measure.tech_13}}</td>
+            <td >{{measure.note_tech_13|linebreaksbr }}</td>
+          </tr>
+          <tr>
+            <td>Typical cost</td>
+            <td>{{measure.tech_14}}</td>
+            <td >{{measure.note_tech_14|linebreaksbr }}</td>
+          </tr>
+        </tbody>
+      </table>
+</div>
+<a id="back-to-top" href="#" > back to top</a>
+
+             <h3>Reference</h3>
+                <p class="lead"> {{measure.reference|linebreaksbr }}<br /> </p>
+                <a id="back-to-top" href="#" > back to top</a>
+
+                <ul class="pager">
+                    <li class="previous">
+                        <a href="{{request.META.HTTP_REFERER}}">Previous page  </a>
+                    </li>
+                </ul>
             </div>
-
         </div>
-
-
     </div>
 </article>
 
 
-<hr>
-{% endblock content %}
+<hr> {% endblock content %}
