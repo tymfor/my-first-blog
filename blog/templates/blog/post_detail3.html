@@ -68,18 +68,21 @@
                 </tr>
             </table>
               <a href="{% url 'post_edit' pk=post.pk %}">
-                  <button type="submit" class="btn btn-default">Edit
+                  <button type="submit" class="btn btn-default">Edit case information
+                  </button>
+              </a>
+              <a href="{% url 'post_delete' pk=post.pk %}">
+                  <button type="submit" class="btn btn-default">Delete case
+                  </button>
+              </a>
+              <a href="{% url 'add_constraints' pk=post.pk %}">
+                  <button type="submit" class="btn btn-default">Add constraints in decision making
                   </button>
               </a>
               <a href="{% url 'mitigation_measures' pk=post.pk %}">
                   <button type="submit" class="btn btn-default">Recommended mitigation measures
                   </button>
               </a>
-              <a href="{% url 'post_delete' pk=post.pk %}">
-                  <button type="submit" class="btn btn-default">Delete
-                  </button>
-              </a>
-
             </div>
         </div>
     </div>

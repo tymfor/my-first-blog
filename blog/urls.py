@@ -10,6 +10,7 @@ urlpatterns = [
     url(r'^post/(?P<pk>[0-9]+)/edit/$',views.post_edit, name = 'post_edit'),
     url(r'^post/(?P<pk>[0-9]+)/delete/$',views.post_delete, name = 'post_delete'),
     url(r'^post/(?P<pk>[0-9]+)/mitigation_measures/$',views.mitigation_measures, name = 'mitigation_measures'),
+    url(r'^post/(?P<pk>[0-9]+)/add_constraints/$',views.constraints_edit, name = 'add_constraints'),
     url(r'^about/$', views.post_about, name='post_about'),
     url(r'^account/signup/$', views.sign_up, name = 'sign_up'),
     url(r'^account/signup_ok/$', views.signup_ok, name='signup_ok'),

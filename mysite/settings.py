@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'geoposition',
     'django_tables2',
     'bootstrap_pagination',
+    'chartit',
 ]
 
 MIDDLEWARE_CLASSES = [

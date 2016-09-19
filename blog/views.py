@@ -3,15 +3,19 @@ from django.utils import timezone
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
 from django_tables2 import RequestConfig
-from .tables import MeasureTable
+from .tables import MeasureTable_wo_constraints,MeasureTable_w_constraints
+
 import numpy as np
 import pickle
+import json
+
 from os.path import *;
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from .decision_making import *
+from .ahp_process_for_constrains import *
 
 from . models import Post, StructuralMeasures
-from . forms import Postform, Viewform, Measuresform
+from . forms import Postform, Viewform, Measuresform, Constraintform
 
 
 #
@@ -33,8 +37,6 @@ def post_detail(request,pk):
 def post_about(request):
     return render(request, 'blog/about.html')
 
-def AHP_survey(request):
-    return render(request, 'blog/ahp_survey.html')
 
 # @login_required
 def post_new(request):
@@ -83,24 +85,29 @@ def sign_up(request):
 def signup_ok(request):
     return render(request, "registration/signup_ok.html")
 
-def updating_StructuralMeasures(request):
-    db_file = normpath(dirname(abspath(__file__)) + 'DB_criteria.txt');
-    f = open(db_file,'rb')
-    measures = pickle.load(f)
-    f.close()
-    return redirect('blog.views.post_list')
-
 def mitigation_measures(request,pk):
     post = get_object_or_404(Post, pk=pk)
     selected_failure_mode = [post.TypeOfMovement,post.Material,post.DepthOfMovement,post.RateOfMovementAtTimeOfWorks,post.Groundwater,post.SurfaceWater]   # size of technical criteria
     measures = StructuralMeasures.objects.all()
     post = available_measures(selected_failure_mode,measures,post)
     post.save()
+    criteria_weights = weights_of_criteria(post)
+    weight_sum_constraints = AHP_process(post.available_measures.all(),criteria_weights)
+    post.available_measures_ahp_sume_peform_criteria = weight_sum_constraints
+    post.save()
     data_selected = []
-    for measure in post.available_measures.all():
+    name = []
+    tech_score = []
+    constraints_score = []
+    for measure,weight_sum in zip(post.available_measures.all(),weight_sum_constraints):
         score = scores(selected_failure_mode,measure)
-        data_selected.append({'name': measure.title, 'id': measure.id,'category_id': measure.category_id,'sum': sum(score)})
-    table = MeasureTable(data_selected)
+        name.append( measure.title)
+        tech_score.append(sum(score))
+        data_selected.append({'name': measure.title, 'id': measure.id,'category_id': measure.category_id,'sum': sum(score),'constraints_score': "{0:.3f}".format(round(weight_sum,2))})
+    if all(x==criteria_weights[0] for x in criteria_weights):
+        table = MeasureTable_wo_constraints(data_selected)
+    else:
+        table = MeasureTable_w_constraints(data_selected)
     RequestConfig(request).configure(table)
     return render(request, 'blog/suggested_measures.html',{'table':table,'post': post})
 
@@ -119,3 +126,15 @@ def measures_list(request):
 def measure_detail(request,pk):
     measure = get_object_or_404(StructuralMeasures, pk=pk)
     return render(request, 'blog/measure_detail.html', {'measure': measure})
+
+def constraints_edit(request,pk):
+    post = get_object_or_404(Post, pk=pk)
+    if request.method == 'POST':
+        form = Constraintform(request.POST, instance=post)
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.save()
+            return redirect('blog.views.mitigation_measures',pk=post.pk)
+    else:
+        form = Constraintform(instance=post)
+    return render(request, 'blog/add_constraints.html',{'form':form})

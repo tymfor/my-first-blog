@@ -20,9 +20,17 @@ class Post(models.Model):
     published_date = models.DateTimeField(
             blank=True, null=True)
     available_measures = models.ManyToManyField('StructuralMeasures')
-    # available_measures_category_id = models.CommaSeparatedIntegerField(max_length=200,default = [])
-    # available_measures_sub_id = models.CommaSeparatedIntegerField(max_length=200,default = [])
     available_measures_sum_tech_criteria = models.CommaSeparatedIntegerField(max_length=200,default =0)
+    available_measures_ahp_sume_peform_criteria = models.CommaSeparatedIntegerField(max_length=200,default =0)
+
+    Perform_weight_1 = models.IntegerField(choices=one_to_ten_choice, default=1, verbose_name="Maturity of technology")
+    Perform_weight_2 = models.IntegerField(choices=one_to_ten_choice, default=1, verbose_name="Reliability of performance")
+    Perform_weight_3 = models.IntegerField(choices=one_to_ten_choice, default=1, verbose_name="Reliability Uncertainty in design")
+    Perform_weight_4 = models.IntegerField(choices=one_to_ten_choice, default=1, verbose_name="Reliability Uncertainty in implementation")
+    Perform_weight_5 = models.IntegerField(choices=one_to_ten_choice, default=1, verbose_name="Safety during construction")
+    Perform_weight_6 = models.IntegerField(choices=one_to_ten_choice, default=1, verbose_name="Service life required (durability)")
+    Perform_weight_7 = models.IntegerField(choices=one_to_ten_choice, default=1, verbose_name="Aesthetics")
+    Perform_weight_8 = models.IntegerField(choices=one_to_ten_choice, default=1, verbose_name="Typical cost")
 
     def publish(self):
         self.published_date = timezone.now()
