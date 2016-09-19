@@ -9,7 +9,7 @@ class MeasureTable_wo_constraints(tables.Table):
     class Meta:
         fields =("name",'sum')
         # add class="paleblue" to <table> tag
-        attrs = {'class': 'paleblue'}
+        attrs = {'class': 'paleblue', 'width':'200%'}
         order_by = '-sum'
         template = 'django_tables2/bootstrap.html'
 
@@ -23,6 +23,6 @@ class MeasureTable_w_constraints(tables.Table):
     class Meta:
         fields =("name","constraints_score",'sum')
         # add class="paleblue" to <table> tag
-        attrs = {'class': 'paleblue'}
+        attrs = {'class': 'paleblue', 'width':'200%'}
         order_by = '-constraints_score'
         template = 'django_tables2/bootstrap.html'
