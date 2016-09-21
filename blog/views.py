@@ -1,7 +1,8 @@
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import render, get_object_or_404, redirect,render_to_response
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
+from django.template import RequestContext
 from django_tables2 import RequestConfig
 from .tables import MeasureTable_wo_constraints,MeasureTable_w_constraints
 
@@ -99,17 +100,41 @@ def mitigation_measures(request,pk):
     name = []
     tech_score = []
     constraints_score = []
-    for measure,weight_sum in zip(post.available_measures.all(),weight_sum_constraints):
+    list1, list2 = (list(x) for x in zip(*sorted(zip(post.available_measures.all(), weight_sum_constraints), key=lambda pair: -pair[1])))
+    for measure,weight_sum in  zip(list1, list2):
         score = scores(selected_failure_mode,measure)
         name.append( measure.title)
-        tech_score.append(sum(score))
-        data_selected.append({'name': measure.title, 'id': measure.id,'category_id': measure.category_id,'sum': sum(score),'constraints_score': "{0:.3f}".format(round(weight_sum,2))})
+        tech_score.append(score)
+        data_selected.append({'name': measure.title, 'id': measure.id,'sub_id': measure.sub_id,'category_id': measure.category_id,'sum': sum(score),'constraints_score': "{0:.4f}".format(round(weight_sum,2))})
     if all(x==criteria_weights[0] for x in criteria_weights):
         table = MeasureTable_wo_constraints(data_selected)
     else:
         table = MeasureTable_w_constraints(data_selected)
+    xdata = [i for i in name]
+    ydata1 = [score[0] for score in tech_score]
+    ydata2 = [score[1] for score in tech_score]
+    ydata3 = [score[2] for score in tech_score]
+    ydata4 = [score[3] for score in tech_score]
+    ydata5 = [score[4] for score in tech_score]
+    ydata6 = [score[5] for score in tech_score]
+    extra_serie1 = {"tooltip": {"y_start": "", "y_end": ""},"stacked":True}
+    chartdata = {
+        'x': xdata,
+        'name1': 'Type of movement', 'y1': ydata1, 'extra1': extra_serie1,
+        'name2': 'Material', 'y2': ydata2, 'extra2': extra_serie1,
+        'name3': 'Depth of movement', 'y3': ydata3, 'extra2': extra_serie1,
+        'name4': 'Rate of movement', 'y4': ydata4, 'extra2': extra_serie1,
+        'name5': 'Groundwater', 'y5': ydata5, 'extra2': extra_serie1,
+        'name6': 'SurfaceWater', 'y6': ydata6, 'extra2': extra_serie1,
+    }
+    charttype = "multiBarHorizontalChart"
+    data = {
+        'charttype': charttype,
+        'chartdata': chartdata,
+        'table':table,'post': post
+    }
     RequestConfig(request).configure(table)
-    return render(request, 'blog/suggested_measures.html',{'table':table,'post': post})
+    return render_to_response('blog/suggested_measures.html',data, context_instance=RequestContext(request))
 
 def measures_list(request):
     measures = StructuralMeasures.objects.all().order_by('category_id','sub_id')

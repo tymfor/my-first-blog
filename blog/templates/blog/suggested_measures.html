@@ -1,4 +1,58 @@
-{% extends 'blog/base.html'%} {% load staticfiles %} {% load render_table from django_tables2 %} {% block header %}
+{% extends 'blog/base.html'%} {% load staticfiles %} {% load render_table from django_tables2 %}{% load nvd3_tags %} {% block head %}
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/nvd3/1.8.1/nv.d3.min.css" rel="stylesheet" />
+<script src="https://d3js.org/d3.v3.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/nvd3/1.8.1/nv.d3.min.js"></script>
+{% load_chart charttype chartdata "multibarhorizontalchart_container" %}
+<script>
+    nv.addGraph(function() {
+        var margin = {
+                top: 30,
+                right: 20,
+                bottom: 100,
+                left: 50
+            },
+            width = 600 - margin.left - margin.right,
+            height = 400 - margin.top - margin.bottom;
+
+        var chart = nv.models.multiBarHorizontalChart();
+        chart
+            .margin(margin)
+            .tooltips(true) //Show tooltips on hover.
+            .stacked(true)
+            .showControls(true)
+            // .reduceXTicks(false)
+            .showLegend(true);
+
+        // chart.interactiveLayer.tooltip
+        //   .fixedTop(100);
+        chart.xAxis
+            .rotateLabels(90);
+        chart.yAxis
+            .axisLabel('Scores')
+            .rotateLabels(90);
+        var datum = data_multibarhorizontalchart_container;
+
+        var svg = d3.select("div#chart")
+            .append("svg")
+            .attr("preserveAspectRatio", "xMinYMin meet")
+            // .attr("viewBox", "0 0 600 400")
+            .attr("width", width + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom)
+            // .append("g")
+            // .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+            // .classed("svg-content-responsive", true);
+
+        d3.select('#chart svg')
+            .datum(datum)
+            .transition().duration(500)
+            .call(chart);
+        nv.utils.windowResize(chart.update);
+        return chart
+    });
+</script>
+{% endblock head%} {% block header %}
 <header class="intro-header" style="background-image: url('{% static 'img/steinsprang_Laerdal.jpg' %}')">
     <div class="container">
         <div class="row">
@@ -18,8 +72,80 @@
 <article>
     <div class="container">
         <div class="row ">
-            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                {% render_table table %}
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 col-sm-12">
+                <h2>Type of Landslide</h2>
+                <table class="table">
+                    <tr class="lead">
+                        <td>Type of movement:</td>
+                        <td>{{ post.get_TypeOfMovement_display }}</td>
+                    </tr>
+                    <tr class="lead">
+                        <td>Material type:</td>
+                        <td>{{ post.get_Material_display }}</td>
+                    </tr>
+                    <tr class="lead">
+                        <td>Depth of movement:</td>
+                        <td>{{ post.get_DepthOfMovement_display }}</td>
+                    </tr>
+                    <tr class="lead">
+                        <td>Rate of movement:</td>
+                        <td>{{ post.get_RateOfMovementAtTimeOfWorks_display }}</td>
+                    </tr>
+                    <tr class="lead">
+                        <td>Groundwater:</td>
+                        <td>{{ post.get_Groundwater_display }}</td>
+                    </tr>
+                    <tr class="lead">
+                        <td>Surface water:</td>
+                        <td>{{ post.get_SurfaceWater_display }}</td>
+                    </tr>
+                </table>
+                <h2>Conatraints in decision making</h2>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th class="lead">Criteria</th>
+                            <th class="lead">Importance</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="lead">
+                            <td>Maturity of technology:</td>
+                            <td>{{ post.Perform_weight_1 }}</td>
+                        </tr>
+                        <tr class="lead">
+                            <td>Reliability of performance:</td>
+                            <td>{{ post.Perform_weight_2 }}</td>
+                        </tr>
+                        <tr class="lead">
+                            <td>Reliability Uncertainty in design:</td>
+                            <td>{{ post.Perform_weight_3 }}</td>
+                        </tr>
+                        <tr class="lead">
+                            <td>Reliability Uncertainty in implementation:</td>
+                            <td>{{ post.Perform_weight_4 }}</td>
+                        </tr>
+                        <tr class="lead">
+                            <td>Safety during construction:</td>
+                            <td>{{ post.Perform_weight_5 }}</td>
+                        </tr>
+                        <tr class="lead">
+                            <td>Service life required (durability):</td>
+                            <td>{{ post.Perform_weight_6 }}</td>
+                        </tr>
+                        <tr class="lead">
+                            <td>Aesthetics:</td>
+                            <td>{{ post.Perform_weight_7 }}</td>
+                        </tr>
+                        <tr class="lead">
+                            <td>Typical cost:</td>
+                            <td>{{ post.Perform_weight_8 }}</td>
+                        </tr>
+                    </tbody>
+
+                </table>
+                <h2>Recommended measures</h2> {% render_table table %}
+                <div id="chart" class="svg-container"></div>
                 <div class="btn-group" role="toolbar">
                     <a href="{% url 'add_constraints' pk=post.pk %}">
                         <button type="submit" class="btn btn-default">Edit constraints in decision making
