@@ -15,7 +15,6 @@ def available_measures(selected_failure_mode,measures,post):
             list_criteria = make_list_array(measure)
             selected_tech_criteria.append(list_criteria[count][tech_index-1])
         if not 0 in selected_tech_criteria:
-            print(measure.name,selected_tech_criteria)
             post.available_measures.add(measure)
             sum_tech_criteria.append(sum(selected_tech_criteria))
     post.available_measures_sum_tech_criteria = sum_tech_criteria

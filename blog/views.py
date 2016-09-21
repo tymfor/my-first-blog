@@ -105,7 +105,7 @@ def mitigation_measures(request,pk):
         score = scores(selected_failure_mode,measure)
         name.append( measure.title)
         tech_score.append(score)
-        data_selected.append({'name': measure.title, 'id': measure.id,'sub_id': measure.sub_id,'category_id': measure.category_id,'sum': sum(score),'constraints_score': "{0:.4f}".format(round(weight_sum,2))})
+        data_selected.append({'name': measure.title, 'id': measure.id,'sub_id': measure.sub_id,'category_id': measure.category_id,'sum': sum(score),'constraints_score': "{0:.4f}".format(round(weight_sum,4))})
     if all(x==criteria_weights[0] for x in criteria_weights):
         table = MeasureTable_wo_constraints(data_selected)
     else:

@@ -27,6 +27,7 @@ def comparison_and_intesity(A,B):
 
     if difference<0:
         intensity_of_importance = 1./intensity_of_importance
+    intensity_of_importance = float(intensity_of_importance)
     return intensity_of_importance
 
 def comparison_matrix(points_list):
@@ -62,7 +63,6 @@ def weights_of_criteria(measure):
     weights_of_criteria = [measure.Perform_weight_1,measure.Perform_weight_2,measure.Perform_weight_3,measure.Perform_weight_4
                                 ,measure.Perform_weight_5,measure.Perform_weight_6,measure.Perform_weight_7,measure.Perform_weight_8]
     return weights_of_criteria
-#weights_of_criteria = [1,1,1,1,1,1,1,10]    # Example of weight criteria
 
 # Calculate technical weights of alternatives
 
@@ -81,9 +81,9 @@ def AHP_process(availabe_measures,weights_of_criteria):
 
         # Calculate weights of criteria
         weights_array_on_criteria = weight_of_alternatives(weights_of_criteria)
-
         # Calculate weight sum of alternative in techncial section
         weight_sum = np.dot(weights_matrix_of_alternatives,weights_array_on_criteria)
+
         #    order = weight_sum.argsort()[::-1]
         #    ranks = order.argsort()
         return weight_sum
