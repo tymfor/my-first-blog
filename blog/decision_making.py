@@ -8,6 +8,7 @@ def make_list_array(measure):
     return list
 
 def available_measures(selected_failure_mode,measures,post):
+    post.available_measures.clear()
     sum_tech_criteria = []
     for measure in measures:
         selected_tech_criteria = []
