@@ -1,4 +1,4 @@
-{% extends 'blog/base.html'%} {% load staticfiles %} {% block header %}
+{% extends 'blog/base.html'%} {% load staticfiles %}{% load render_table from django_tables2 %} {% block header %}
 <header class="modal-header bg-primary">
     <div class="container">
         <div class="row">
@@ -27,6 +27,8 @@
                         </div>
                     </div>
                     {% endfor %}
+                    <h2>Available measures</h2> {% render_table table %}
+
                         <button type="submit" class="btn btn-default">Submit and show results</button>
                 </form>
             </div>

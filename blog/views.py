@@ -4,11 +4,12 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
 from django.template import RequestContext
 from django_tables2 import RequestConfig
-from .tables import MeasureTable_wo_constraints,MeasureTable_w_constraints
+from .tables import MeasureTable_wo_constraints,MeasureTable_w_constraints,MeasureTable_for_selection
 
 import numpy as np
 import pickle
 import json
+import ast
 
 from os.path import *;
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
@@ -93,16 +94,22 @@ def mitigation_measures(request,pk):
     post = available_measures(selected_failure_mode,measures,post)
     post.save()
     criteria_weights = weights_of_criteria(post)
-    weight_sum_constraints = AHP_process(post.available_measures.all(),criteria_weights)
+    if len(post.selected_measures.all()) == 0:
+        selected_measures = post.available_measures.all()
+    else:
+        selected_measures = post.selected_measures.all()
+    weight_sum_constraints = AHP_process(selected_measures,criteria_weights)
     post.available_measures_ahp_sume_peform_criteria = weight_sum_constraints
     post.save()
     data_selected = []
     name = []
     tech_score = []
     constraints_score = []
-    list1, list2 = (list(x) for x in zip(*sorted(zip(post.available_measures.all(), weight_sum_constraints), key=lambda pair: -pair[1])))
+    performance_score = []
+    list1, list2 = (list(x) for x in zip(*sorted(zip(selected_measures, weight_sum_constraints), key=lambda pair: -pair[1])))
     for measure,weight_sum in  zip(list1, list2):
         score = scores(selected_failure_mode,measure)
+        performance_score.append(array_performance_and_reliability_criteria(measure))
         name.append( measure.title)
         tech_score.append(score)
         data_selected.append({'name': measure.title, 'id': measure.id,'sub_id': measure.sub_id,'category_id': measure.category_id,'sum': sum(score),'constraints_score': "{0:.4f}".format(round(weight_sum,4))})
@@ -110,22 +117,44 @@ def mitigation_measures(request,pk):
         table = MeasureTable_wo_constraints(data_selected)
     else:
         table = MeasureTable_w_constraints(data_selected)
+    # xdata = [i for i in name]
+    # ydata1 = [score[0] for score in tech_score]
+    # ydata2 = [score[1] for score in tech_score]
+    # ydata3 = [score[2] for score in tech_score]
+    # ydata4 = [score[3] for score in tech_score]
+    # ydata5 = [score[4] for score in tech_score]
+    # ydata6 = [score[5] for score in tech_score]
+    # extra_serie1 = {"tooltip": {"y_start": "", "y_end": ""},"stacked":True}
+    # chartdata = {
+    #     'x': xdata,
+    #     'name1': 'Type of movement', 'y1': ydata1, 'extra1': extra_serie1,
+    #     'name2': 'Material', 'y2': ydata2, 'extra2': extra_serie1,
+    #     'name3': 'Depth of movement', 'y3': ydata3, 'extra2': extra_serie1,
+    #     'name4': 'Rate of movement', 'y4': ydata4, 'extra2': extra_serie1,
+    #     'name5': 'Groundwater', 'y5': ydata5, 'extra2': extra_serie1,
+    #     'name6': 'SurfaceWater', 'y6': ydata6, 'extra2': extra_serie1,
+    # }
     xdata = [i for i in name]
-    ydata1 = [score[0] for score in tech_score]
-    ydata2 = [score[1] for score in tech_score]
-    ydata3 = [score[2] for score in tech_score]
-    ydata4 = [score[3] for score in tech_score]
-    ydata5 = [score[4] for score in tech_score]
-    ydata6 = [score[5] for score in tech_score]
+    ydata1 = [score[0] for score in performance_score]
+    ydata2 = [score[1] for score in performance_score]
+    ydata3 = [score[2] for score in performance_score]
+    ydata4 = [score[3] for score in performance_score]
+    ydata5 = [score[4] for score in performance_score]
+    ydata6 = [score[5] for score in performance_score]
+    ydata7 = [score[6] for score in performance_score]
+    ydata8 = [score[7] for score in performance_score]
+
     extra_serie1 = {"tooltip": {"y_start": "", "y_end": ""},"stacked":True}
     chartdata = {
         'x': xdata,
-        'name1': 'Type of movement', 'y1': ydata1, 'extra1': extra_serie1,
-        'name2': 'Material', 'y2': ydata2, 'extra2': extra_serie1,
-        'name3': 'Depth of movement', 'y3': ydata3, 'extra2': extra_serie1,
-        'name4': 'Rate of movement', 'y4': ydata4, 'extra2': extra_serie1,
-        'name5': 'Groundwater', 'y5': ydata5, 'extra2': extra_serie1,
-        'name6': 'SurfaceWater', 'y6': ydata6, 'extra2': extra_serie1,
+        'name1': 'Maturity of technology', 'y1': ydata1, 'extra1': extra_serie1,
+        'name2': 'Reliability of performance', 'y2': ydata2, 'extra2': extra_serie1,
+        'name3': 'Reliability Uncertainty in design', 'y3': ydata3, 'extra2': extra_serie1,
+        'name4': 'Reliability Uncertainty in implementation', 'y4': ydata4, 'extra2': extra_serie1,
+        'name5': 'Safety during construction', 'y5': ydata5, 'extra2': extra_serie1,
+        'name6': 'Service life required (durability)', 'y6': ydata6, 'extra2': extra_serie1,
+        'name7': 'Aesthetics', 'y7': ydata7, 'extra2': extra_serie1,
+        'name8': 'Typical cost', 'y8': ydata8, 'extra2': extra_serie1,
     }
     charttype = "multiBarHorizontalChart"
     data = {
@@ -154,12 +183,34 @@ def measure_detail(request,pk):
 
 def constraints_edit(request,pk):
     post = get_object_or_404(Post, pk=pk)
+    post.selected_measures.clear()
+    selected_failure_mode = [post.TypeOfMovement,post.Material,post.DepthOfMovement,post.RateOfMovementAtTimeOfWorks,post.Groundwater,post.SurfaceWater]   # size of technical criteria
+    measures = StructuralMeasures.objects.all()
+    post = available_measures(selected_failure_mode,measures,post)
+    post.save()
+    available_measures_sum_tech_criteria = [float(x) for x in post.available_measures_sum_tech_criteria]
+    list1, list2 = (list(x) for x in zip(*sorted(zip(post.available_measures.all(),available_measures_sum_tech_criteria), key=lambda pair: -pair[1])))
+    data_selected = []
+    name = []
+    tech_score = []
+    constraints_score = []
+    for measure,weight_sum in  zip(list1, list2):
+        score = scores(selected_failure_mode,measure)
+        name.append(measure.title)
+        tech_score.append(score)
+        data_selected.append({'name': measure.title, 'id': measure.id,'sub_id': measure.sub_id,'category_id': measure.category_id,'measure': measure,'sum': sum(score),'constraints_score': "{0:.4f}".format(round(weight_sum,4))})
+    table = MeasureTable_for_selection(data_selected)
+    RequestConfig(request).configure(table)
     if request.method == 'POST':
         form = Constraintform(request.POST, instance=post)
         if form.is_valid():
             post = form.save(commit=False)
             post.save()
+            some_var = request.POST.getlist('selection')
+            for measure in some_var:
+                post.selected_measures.add(StructuralMeasures.objects.get(name=measure))
             return redirect('blog.views.mitigation_measures',pk=post.pk)
     else:
         form = Constraintform(instance=post)
-    return render(request, 'blog/add_constraints.html',{'form':form})
+
+    return render(request, 'blog/add_constraints.html',{'form':form,'table':table})

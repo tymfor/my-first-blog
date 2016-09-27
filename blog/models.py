@@ -19,9 +19,10 @@ class Post(models.Model):
             default=timezone.now)
     published_date = models.DateTimeField(
             blank=True, null=True)
-    available_measures = models.ManyToManyField('StructuralMeasures')
+    available_measures = models.ManyToManyField('StructuralMeasures', related_name="available_measures")
     available_measures_sum_tech_criteria = models.CommaSeparatedIntegerField(max_length=200,default =0)
     available_measures_ahp_sume_peform_criteria = models.CommaSeparatedIntegerField(max_length=200,default =0)
+    selected_measures = models.ManyToManyField('StructuralMeasures', related_name="selected_measures")
 
     Perform_weight_1 = models.IntegerField(choices=one_to_ten_choice, default=10, verbose_name="Maturity of technology")
     Perform_weight_2 = models.IntegerField(choices=one_to_ten_choice, default=10, verbose_name="Reliability of performance")
