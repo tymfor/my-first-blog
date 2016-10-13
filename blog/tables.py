@@ -30,12 +30,13 @@ class MeasureTable_w_constraints(tables.Table):
 
 class MeasureTable_for_selection(tables.Table):
     # name = tables.columns.TemplateColumn(template_code=u"""{{ record.title }}""", orderable=True, verbose_name='Name')
+    number_id = tables.columns.TemplateColumn(template_code=u"""<a href="{% url \'measure_detail\' record.id %}">{{ record.category_id }}.{{ record.sub_id }}""", orderable=True, verbose_name='ID')
     name = tables.columns.TemplateColumn(template_code="""<a href="{% url \'measure_detail\' record.id %}">{{ record.name }}</a>""", orderable=True, verbose_name='Name')
     sum = tables.columns.TemplateColumn(template_code=u"""{{ record.sum }}""", orderable=True, verbose_name='Sum of tech criteria')
     selection = tables.columns.TemplateColumn(template_code=u"""<input type="checkbox" value="{{ record.measure }}" name="selection"/>""", verbose_name="selection")
 
     class Meta:
-        fields =("selection","name",'sum')
+        fields =("selection","number_id","name",'sum')
         # add class="paleblue" to <table> tag
         attrs = {'class': 'paleblue', 'width':'200%'}
         order_by = '-sum'
