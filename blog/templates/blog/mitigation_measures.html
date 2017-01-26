@@ -1,5 +1,4 @@
-
-{% extends 'blog/base.html'%} {% load staticfiles %}  {% block header %}
+ {% extends 'blog/base.html'%} {% load staticfiles %} {% block header %}
 <header class="intro-header" style="background-image: url('{% static 'img/safeland.jpg' %}')">
     <div class="container">
         <div class="row">
@@ -11,58 +10,54 @@
             </div>
         </div>
     </div>
-  </header>
+</header>
 
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-              <hr >
-              <div class ="clearfix">
-              <p class = "lead">The toolbox includes near 70 structural mitigation measures. The structural measures are divided into ten categories and belong to class of measures either reducing hazard or reducing consequences</p>
-            </div>
-            <hr >
-          </div>
-  <hr>
-    </div>
-
-{% endblock header %} {% block content %}
 <div class="container">
     <div class="row">
         <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-            {% for measure in measures %}
-            <div class="lead">
+            <hr>
+            <div class="clearfix">
+                <p class="lead">The toolbox includes near 70 structural mitigation measures. The structural measures are divided into ten categories and belong to class of measures either reducing hazard or reducing consequences</p>
+            </div>
+            <hr>
+        </div>
+        <hr>
+    </div>
+
+    {% endblock header %} {% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                {% for measure in measures %}
+                <div class="lead">
                     <h4 class="post-subtitle">
-                      <a href="{% url 'measure_detail' pk=measure.pk %}">{{measure.title}}</a>
-          </h4>
+                      <a href="{% url 'measure_detail' pk=measure.pk %}">{{measure.category_id}}.{{measure.sub_id}}: {{measure.title}}</a>
+                    </h4>
                     <h5 class="post-subtitle">
                       Category {{measure.category_id}} : {{measure.category_description}}
-          </h5>
-                </a>
-            </div>
-            <hr> {% endfor %}
-            {% if measures.has_other_pages %}
-            <ul class="pagination">
-              {% if measures.has_previous %}
-                <li><a href="?page={{ measures.previous_page_number }}">&laquo;</a></li>
-              {% else %}
-                <li class="disabled"><span>&laquo;</span></li>
-              {% endif %}
-              {% for i in measures.paginator.page_range %}
-                {% if measures.number == i %}
-                  <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
-                {% else %}
-                  <li><a href="?page={{ i }}">{{ i }}</a></li>
+                    </h5>
+                    </a>
+                </div>
+                <hr> {% endfor %} {% if measures.has_other_pages %}
+                <ul class="pagination">
+                    {% if measures.has_previous %}
+                    <li><a href="?page={{ measures.previous_page_number }}">&laquo;</a></li>
+                    {% else %}
+                    <li class="disabled"><span>&laquo;</span></li>
+                    {% endif %} {% for i in measures.paginator.page_range %} {% if measures.number == i %}
+                    <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span>
+                    </li>
+                    {% else %}
+                    <li><a href="?page={{ i }}">{{ i }}</a></li>
+                    {% endif %} {% endfor %} {% if measures.has_next %}
+                    <li><a href="?page={{ measures.next_page_number }}">&raquo;</a></li>
+                    {% else %}
+                    <li class="disabled"><span>&raquo;</span></li>
+                    {% endif %}
+                </ul>
                 {% endif %}
-              {% endfor %}
-              {% if measures.has_next %}
-                <li><a href="?page={{ measures.next_page_number }}">&raquo;</a></li>
-              {% else %}
-                <li class="disabled"><span>&raquo;</span></li>
-              {% endif %}
-            </ul>
-        {% endif %}
+            </div>
         </div>
     </div>
-</div>
 
-<hr> {% endblock content %}
+    <hr> {% endblock content %}

@@ -3,6 +3,8 @@ from django.utils import timezone
 from geoposition.fields import GeopositionField
 from geoposition import Geoposition
 from .choices import *
+from ckeditor.fields import RichTextField
+from ckeditor_uploader.fields import RichTextUploadingField
 
 class Post(models.Model):
     author = models.ForeignKey('auth.User')
@@ -100,11 +102,12 @@ class StructuralMeasures(models.Model):
 
         # tech_criteria_AtoF = models.CommaSeparatedIntegerField(max_length=200)
         # performance_and_reliability_criteria = models.CommaSeparatedIntegerField(max_length=200)
-        description_text = models.TextField(default = 'will be updated')
-        design_text = models.TextField(default = 'will be updated')
-        reference = models.TextField(default = 'will be updated')
-        figure_captions = models.CommaSeparatedIntegerField(max_length=200, default = 0)
-        img_src = models.CommaSeparatedIntegerField(max_length=200, default = 0)
+        # description_text = models.TextField(default = 'will be updated')
+        description_text = RichTextUploadingField(default = 'will be updated')
+        design_text = RichTextUploadingField(default = 'will be updated')
+        reference = RichTextUploadingField(default = 'will be updated')
+        # figure_captions = models.CommaSeparatedIntegerField(max_length=200, default = 0)
+        # img_src = models.CommaSeparatedIntegerField(max_length=200, default = 0)
         def __str__(self):
             return self.name
 

@@ -1,4 +1,11 @@
-{% extends 'blog/base.html'%} {% load staticfiles %} {% block header %}
+{% extends 'blog/base.html'%} {% load staticfiles %}
+
+{% block head %}
+<script type="text/javascript" src="{% static "ckeditor/ckeditor/ckeditor.js" %}"></script>
+<script type="text/javascript" src="{% static "ckeditor/ckeditor-init.js" %}"></script>
+{% endblock head %}
+
+{% block header %}
 <header class="intro-header" style="background-image: url('{% static 'img/steinsprang_Laerdal.jpg' %}')">
     <div class="container">
         <div class="row">
@@ -39,11 +46,11 @@
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                 <hr class="section-divider">
                 <h3 id="Description">Description</h3>
-                <p class="lead"> {{measure.description_text|linebreaksbr }}<br /> </p>
+                <p class="lead"> {{measure.description_text|safe }}<br /> </p>
                 <a id="back-to-top" href="#" > back to top</a>
                 <hr class="section-divider">
                 <h3 id="Design">Design</h3>
-                <p class="lead"> {{measure.design_text|linebreaksbr }} <br /></p>
+                <p class="lead"> {{measure.design_text|safe }} <br /></p>
                 <a id="back-to-top" href="#" > back to top</a>
 
                 <hr class="section-divider">
@@ -344,7 +351,7 @@
 <a id="back-to-top" href="#" > back to top</a>
 
              <h3>Reference</h3>
-                <p class="lead"> {{measure.reference|linebreaksbr }}<br /> </p>
+                <p class="lead"> {{measure.reference|safe }} </p>
                 <a id="back-to-top" href="#" > back to top</a>
 
                 <ul class="pager">

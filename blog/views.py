@@ -166,9 +166,10 @@ def mitigation_measures(request,pk):
     return render_to_response('blog/suggested_measures.html',data, context_instance=RequestContext(request))
 
 def measures_list(request):
+    paginate_by = 30
     measures = StructuralMeasures.objects.all().order_by('category_id','sub_id')
     page = request.GET.get('page', 1)
-    paginator = Paginator(measures, 10)
+    paginator = Paginator(measures, paginate_by)
     try:
         measures = paginator.page(page)
     except PageNotAnInteger:
@@ -176,6 +177,7 @@ def measures_list(request):
     except EmptyPage:
         measures = paginator.page(paginator.num_pages)
     return render(request, 'blog/mitigation_measures.html', {'measures':measures})
+
 
 def measure_detail(request,pk):
     measure = get_object_or_404(StructuralMeasures, pk=pk)
