@@ -28,12 +28,12 @@ class Post(models.Model):
 
     Perform_weight_1 = models.IntegerField(choices=one_to_ten_choice, default=10, verbose_name="Maturity of technology")
     Perform_weight_2 = models.IntegerField(choices=one_to_ten_choice, default=10, verbose_name="Reliability of performance")
-    Perform_weight_3 = models.IntegerField(choices=one_to_ten_choice, default=10, verbose_name="Reliability Uncertainty in design")
-    Perform_weight_4 = models.IntegerField(choices=one_to_ten_choice, default=10, verbose_name="Reliability Uncertainty in implementation")
+    Perform_weight_3 = models.IntegerField(choices=one_to_ten_choice, default=10, verbose_name="Reliability of design")
+    Perform_weight_4 = models.IntegerField(choices=one_to_ten_choice, default=10, verbose_name="Reliability of implementation")
     Perform_weight_5 = models.IntegerField(choices=one_to_ten_choice, default=10, verbose_name="Safety during construction")
     Perform_weight_6 = models.IntegerField(choices=one_to_ten_choice, default=10, verbose_name="Service life required (durability)")
-    Perform_weight_7 = models.IntegerField(choices=one_to_ten_choice, default=10, verbose_name="Aesthetics")
-    Perform_weight_8 = models.IntegerField(choices=one_to_ten_choice, default=10, verbose_name="Typical cost")
+    Perform_weight_7 = models.IntegerField(choices=one_to_ten_choice, default=10, verbose_name="Aesthetic impact")
+    Perform_weight_8 = models.IntegerField(choices=one_to_ten_choice, default=10, verbose_name="Economic impact (cost)")
 
     def publish(self):
         self.published_date = timezone.now()

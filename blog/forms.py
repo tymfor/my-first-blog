@@ -23,12 +23,12 @@ class Constraintform(forms.ModelForm):
         model = Post
         fields = ('Perform_weight_1','Perform_weight_2','Perform_weight_3','Perform_weight_4','Perform_weight_5','Perform_weight_6','Perform_weight_7','Perform_weight_8')
         help_texts = {
-            'Perform_weight_1': 'High rating means technology maturity is important',
-            'Perform_weight_2': 'High rating means peformance of mitgation measure is important',
-            'Perform_weight_3': 'High rating means simpleness in design is important',
-            'Perform_weight_4': 'High rating means the solution need to be easy to be constructed (implemented)',
-            'Perform_weight_5': 'High rating means safety(security) during construction is important',
-            'Perform_weight_6': 'High rating means long life time of measure is important',
-            'Perform_weight_7': 'High rating means the measure should be fit to enviroment ',
-            'Perform_weight_8': 'High rating means inexpensive solution is important',
+            'Perform_weight_1': 'High rating means that the maturity of technology is an important factor',
+            'Perform_weight_2': 'High rating means that the performance of the mitigation measure is important',
+            'Perform_weight_3': 'High rating means that simplicity in design is important',
+            'Perform_weight_4': 'High rating means the solution needs to be easily to be constructed and implemented',
+            'Perform_weight_5': 'High rating means that safety and security during construction are important',
+            'Perform_weight_6': 'High rating means that the durability of the mitigation measure is important',
+            'Perform_weight_7': 'High rating means the mitigation measure should have high aesthetic quality',
+            'Perform_weight_8': 'High rating means that economic constraints are relevant',
         }
