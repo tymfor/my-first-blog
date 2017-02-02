@@ -22,9 +22,15 @@
             .tooltips(true) //Show tooltips on hover.
             .stacked(true)
             .showControls(true)
+            .x(function(d) {
+                return d.x
+            }) //Specify the data accessors.
             // .reduceXTicks(false)
-            .showLegend(true);
-
+            .showLegend(true)
+            // .tooltipContent(function(d) {
+            //     return '<p>' + d.series.label + '</p>';
+            // })
+            ;
         // chart.interactiveLayer.tooltip
         //   .fixedTop(100);
         chart.xAxis

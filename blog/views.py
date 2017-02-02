@@ -134,7 +134,19 @@ def mitigation_measures(request,pk):
     #     'name5': 'Groundwater', 'y5': ydata5, 'extra2': extra_serie1,
     #     'name6': 'SurfaceWater', 'y6': ydata6, 'extra2': extra_serie1,
     # }
-    xdata = [i for i in name]
+    # chart_data =[]
+    # labels = ['Maturity of technology'
+    #         , 'Reliability of performance'
+    #         , 'Reliability in design'
+    #         , 'Reliability of implementation'
+    #         , 'Safety during construction'
+    #         ,'Service life required (durability)',
+    #         ,'Aesthetic impact'
+    #         ,'Economic impact (cost)']
+    # for data_recommended,score in zip(data_selected,performance_score):
+    #     chart_data.append({'key':data_recommended['name'],'value':[{'label':i,'value':j} for i,j in enumerate(score)]})
+    xdata = ['%d.%d'%(i['category_id'],i['sub_id']) for i in data_selected]
+    print(xdata)
     ydata1 = [score[0] for score in performance_score]
     ydata2 = [score[1] for score in performance_score]
     ydata3 = [score[2] for score in performance_score]
@@ -147,14 +159,15 @@ def mitigation_measures(request,pk):
     extra_serie1 = {"tooltip": {"y_start": "", "y_end": ""},"stacked":True}
     chartdata = {
         'x': xdata,
+        'label': name,
         'name1': 'Maturity of technology', 'y1': ydata1, 'extra1': extra_serie1,
         'name2': 'Reliability of performance', 'y2': ydata2, 'extra2': extra_serie1,
-        'name3': 'Reliability Uncertainty in design', 'y3': ydata3, 'extra2': extra_serie1,
-        'name4': 'Reliability Uncertainty in implementation', 'y4': ydata4, 'extra2': extra_serie1,
+        'name3': 'Reliability in design', 'y3': ydata3, 'extra2': extra_serie1,
+        'name4': 'Reliability of implementation', 'y4': ydata4, 'extra2': extra_serie1,
         'name5': 'Safety during construction', 'y5': ydata5, 'extra2': extra_serie1,
         'name6': 'Service life required (durability)', 'y6': ydata6, 'extra2': extra_serie1,
-        'name7': 'Aesthetics', 'y7': ydata7, 'extra2': extra_serie1,
-        'name8': 'Typical cost', 'y8': ydata8, 'extra2': extra_serie1,
+        'name7': 'Aesthetic impact', 'y7': ydata7, 'extra2': extra_serie1,
+        'name8': 'Economic impact (cost)', 'y8': ydata8, 'extra2': extra_serie1,
     }
     charttype = "multiBarHorizontalChart"
     data = {

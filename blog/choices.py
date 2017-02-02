@@ -1,9 +1,9 @@
 TypeOfMovement_CHOICE = (
-    (1, "Falls"),
-    (2, "Topples"),
-    (3, "Slides"),
-    (4, "Spreads"),
-    (5, "Flows")
+    (1, "Fall"),
+    (2, "Topple"),
+    (3, "Slide"),
+    (4, "Spread"),
+    (5, "Flow")
 )
 Material_CHOICE = (
     (1, "Earth"),
